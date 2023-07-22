@@ -73,7 +73,7 @@ def predict_for_deepphos(train_file_name,sites,predictFrame = 'general',
     result.to_csv(outputfile + "prediction_phosphorylation.txt", index=False, header=None, sep='\t',
                   quoting=csv.QUOTE_NONNUMERIC)
 if __name__ == '__main__':
-    train_file_name = 'test data.csv'
+    train_file_name = 'testing_proteins_withannotation_STY.csv'
     site = 'S','T'
     predict_for_deepphos(train_file_name, site, predictFrame='kinase',
                          hierarchy='group', kinase='AGC')

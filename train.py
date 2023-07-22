@@ -23,7 +23,6 @@ import copy
 
 def train_for_deepphos(train_file_name,site,predictFrame = 'general',background_weight = None):
     '''
-
     :param train_file_name:  input of your train file
                                 it must be a .csv file and theinput format  is label,proteinName, postion,sites, shortsequence,
     :param site: the sites predict: site = 'S','T' OR 'Y'
