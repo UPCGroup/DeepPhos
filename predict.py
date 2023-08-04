@@ -22,8 +22,7 @@ from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 import copy
 
-def predict_for_deepphos(train_file_name,sites,predictFrame = 'general',
-                         hierarchy=None, kinase=None):
+def predict_for_deepphos(train_file_name,sites, customModel=None):
     '''
 
     :param train_file_name: input of your prdict file
@@ -37,7 +36,6 @@ def predict_for_deepphos(train_file_name,sites,predictFrame = 'general',
      a file with the score
     '''
 
-
     win1 = 51
     win2 = 33
     win3 = 15
@@ -46,37 +44,21 @@ def predict_for_deepphos(train_file_name,sites,predictFrame = 'general',
     [X_test2,_,_,_] = getMatrixInput(train_file_name, sites, win2)
     [X_test3,_,_,_]  = getMatrixInput(train_file_name, sites, win3)
 
-#     print X_test1.shape
-#     print len(position)
-
     from methods.model_n import model_net
     model = model_net(X_test1, X_test2, X_test3, y_test,nb_epoch = 0)
 
-    #load model weight
-    if predictFrame == 'general':
-        outputfile = 'general_{:s}'.format(site)
-        if site == ('S','T'):
-            model_weight = './models/model_general_S,T.h5'
-        if site == 'Y':
-            model_weight = './models/model_general_Y.h5'
-
-
-    if predictFrame == 'kinase':
-        outputfile = 'kinase_{:s}_{:s}'.format(hierarchy, kinase)
-        model_weight = './models/model_{:s}_{:s}.h5'.format(hierarchy, kinase)
-#     print model_weight
+    model_weight = customModel
     model.load_weights(model_weight)
     predictions_t = model.predict([X_test1, X_test2, X_test3])
     results_ST = np.column_stack((ids, position,predictions_t[:, 1]))
 
     result = pd.DataFrame(results_ST)
-    result.to_csv(outputfile + "prediction_phosphorylation.txt", index=False, header=None, sep='\t',
+    result.to_csv("./output/test_ST.txt", index=False, header=None, sep='\t',
                   quoting=csv.QUOTE_NONNUMERIC)
 if __name__ == '__main__':
-    train_file_name = 'testing_proteins_withannotation_STY.csv'
-    site = 'S','T'
-    predict_for_deepphos(train_file_name, site, predictFrame='kinase',
-                         hierarchy='group', kinase='AGC')
+    train_file_name = './input/test_ST_.csv'
+    site = 'S', 'T'
+    predict_for_deepphos(train_file_name, site, customModel="./models/general_model_ST_.h5")
 
 
 

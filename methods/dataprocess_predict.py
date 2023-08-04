@@ -59,28 +59,27 @@ def getMatrixInput(positive_position_file_name,sites, window_size=51, empty_aa =
 
         ONE_HOT_SIZE = 21
         # _aminos = 'ACDEFGHIKLMNPQRSTVWY*'
-        letterDict = {}
-        letterDict["A"] = 0
-        letterDict["C"] = 1
-        letterDict["D"] = 2
-        letterDict["E"] = 3
-        letterDict["F"] = 4
-        letterDict["G"] = 5
-        letterDict["H"] = 6
-        letterDict["I"] = 7
-        letterDict["K"] = 8
-        letterDict["L"] = 9
-        letterDict["M"] = 10
-        letterDict["N"] = 11
-        letterDict["P"] = 12
-        letterDict["Q"] = 13
-        letterDict["R"] = 14
-        letterDict["S"] = 15
-        letterDict["T"] = 16
-        letterDict["V"] = 17
-        letterDict["W"] = 18
-        letterDict["Y"] = 19
-        letterDict["*"] = 20
+        letterDict = {"A": 0,
+                      "C": 1,
+                      "D": 2,
+                      "E": 3,
+                      "F": 4,
+                      "G": 5,
+                      "H": 6,
+                      "I": 7,
+                      "K": 8,
+                      "L": 9,
+                      "M": 10,
+                      "N": 11,
+                      "P": 12,
+                      "Q": 13,
+                      "R": 14,
+                      "S": 15,
+                      "T": 16,
+                      "V": 17,
+                      "W": 18,
+                      "Y": 19,
+                      "*": 20}
 
         # print len(short_seqs)
         Matr = np.zeros((len(short_seqs), window_size, ONE_HOT_SIZE))
@@ -89,22 +88,11 @@ def getMatrixInput(positive_position_file_name,sites, window_size=51, empty_aa =
             AANo = 0
             for AA in seq:
                 index = letterDict[AA]
-                # print index
                 Matr[samplenumber][AANo][index] = 1
-                # print samplenumber
                 AANo = AANo+1
             samplenumber = samplenumber + 1
 
     return Matr, targetY, prot, pos
-
-
-
-
-
-
-
-
-
 
 
 

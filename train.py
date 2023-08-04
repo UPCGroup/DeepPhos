@@ -37,18 +37,18 @@ def train_for_deepphos(train_file_name,site,predictFrame = 'general',background_
     win2 = 33
     win3 = 15
     from methods.dataprocess_train import getMatrixLabel
-    X_train1 , y_train = getMatrixLabel(train_file_name, sites, win1)
-    X_train2, _ = getMatrixLabel(train_file_name, sites, win2)
-    X_train3, _ = getMatrixLabel(train_file_name, sites, win3)
+    X_train1 , y_train = getMatrixLabel(train_file_name, site, win1)
+    X_train2, _ = getMatrixLabel(train_file_name, site, win2)
+    X_train3, _ = getMatrixLabel(train_file_name, site, win3)
 
 
     modelname = "general_{:s}".format(site)
     if predictFrame == 'general':
-        modelname ="general_model_{:s}".format(site)
+        modelname ="general_model_{:s}".format("ST_")
 
 
     if predictFrame == 'kinase':
-        modelname = "kinase_model_{:s}".format(site)
+        modelname = "kinase_model_{:s}".format("CDK")
 
 
     from methods.model_n import model_net
@@ -57,5 +57,5 @@ def train_for_deepphos(train_file_name,site,predictFrame = 'general',background_
                weights=background_weight)
     model.save_weights(modelname+'.h5',overwrite=True)
 
-
-
+train_for_deepphos("./input/train_ST.csv", site=('S', 'T'), predictFrame="general",
+                   background_weight=None)
